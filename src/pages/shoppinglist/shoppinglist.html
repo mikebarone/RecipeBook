@@ -9,5 +9,37 @@
 
 
 <ion-content padding>
-
+  <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <ion-list>
+      <ion-item>
+        <ion-label
+          fixed
+          for="ingredientName">Name</ion-label>
+        <ion-input
+          type="text"
+          name="ingredientName"
+          id="ingredientName"
+          placeholder="Milk"
+          ngModel
+          required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label
+          fixed
+          for="ingredientAmount">Amount</ion-label>
+        <ion-input
+          type="number"
+          name="ingredientAmount"
+          id="ingredientAmount"
+          placeholder="2"
+          ngModel
+          required></ion-input>
+      </ion-item>
+    </ion-list>
+    <button
+      ion-button
+      type="submit"
+      block
+      [disabled]="!f.valid">Add</button>
+  </form>
 </ion-content>
