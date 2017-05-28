@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {NgForm} from "@angular/forms";
 import {ShoppinglistService} from "../../services/shoppinglist.service";
 import {Ingredient} from "../../models/ingredient.model";
+import {Subscription} from "rxjs";
 
 @IonicPage()
 @Component({
@@ -15,13 +16,13 @@ export class ShoppinglistPage implements OnInit {
   ingredients: Ingredient[];
   editMode = false;
   editedItemIndex: number;
+  private subscription: Subscription;
 
   constructor(private slService: ShoppinglistService) {}
 
   onSubmit(form: NgForm) {
     const value = this.ingredientForm.value;
     const newIngredient = new Ingredient(value.ingredientName, value.ingredientAmount);
-    // console.log(this.ingredientForm.value.ingredientName);
     if (this.editMode) {
       this.slService.updateIngredient(this.editedItemIndex, newIngredient);
     } else {
@@ -32,13 +33,21 @@ export class ShoppinglistPage implements OnInit {
   }
 
   ngOnInit() {
-    // this.ingredients = this.slService.getIngredients();
-    // console.log('Ingredients: '+this.ingredients);
+    this.ingredients = this.slService.getIngredients();
+    this.subscription = this.slService.ingredientsChanged
+      .subscribe(
+        (ingredients: Ingredient[]) => {
+          this.ingredients = ingredients;
+        }
+      );
   }
 
-  ionViewDidEnter() {
-    // this.ingredients = this.slService.getIngredients();
-    // console.log('Ingredients: '+this.ingredients);
+  ionViewWillEnter() {
+    this.ingredients = this.slService.getIngredients();
+  }
+
+  onRemoveIngredient(index: number) {
+    this.slService.deleteIngredient(index);
   }
 
 }

@@ -42,4 +42,23 @@
       block
       [disabled]="!f.valid">Add</button>
   </form>
+  <ion-list>
+    <ion-item-sliding *ngFor="let ingredient of ingredients; let i = index" >
+      <ion-item
+        (click)="onEditIngredient(ingredient)">
+        <h2>{{ingredient.name}}</h2>
+        <p>{{ingredient.amount}}</p>
+      </ion-item>
+      <ion-item-options>
+        <button
+          ion-button
+          color="danger"
+          (click)="onRemoveIngredient(i)">
+          <ion-icon name="trash"></ion-icon>
+          Delete
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
 </ion-content>
