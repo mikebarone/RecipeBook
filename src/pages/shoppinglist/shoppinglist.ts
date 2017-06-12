@@ -1,9 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, NavController, NavParams, PopoverController} from 'ionic-angular';
 import {NgForm} from "@angular/forms";
 import {ShoppinglistService} from "../../services/shoppinglist.service";
 import {Ingredient} from "../../models/ingredient.model";
 import {Subscription} from "rxjs";
+import {SLOptionsPage} from "./sl-options/sl-options";
 
 @IonicPage()
 @Component({
@@ -18,7 +19,8 @@ export class ShoppinglistPage implements OnInit {
   editedItemIndex: number;
   private subscription: Subscription;
 
-  constructor(private slService: ShoppinglistService) {}
+  constructor(private slService: ShoppinglistService,
+              private popoverCtrl: PopoverController) {}
 
   onSubmit(form: NgForm) {
     const value = this.ingredientForm.value;
@@ -48,6 +50,13 @@ export class ShoppinglistPage implements OnInit {
 
   onRemoveIngredient(index: number) {
     this.slService.deleteIngredient(index);
+  }
+
+  onShowOptions(event: MouseEvent) {
+    const popover = this.popoverCtrl.create(SLOptionsPage);
+    popover.present({
+      ev: event
+    });
   }
 
 }

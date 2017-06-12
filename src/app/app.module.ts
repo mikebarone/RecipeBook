@@ -16,6 +16,8 @@ import {ShoppinglistService} from "../services/shoppinglist.service";
 import {RecipesService} from "../services/recipes.service";
 import {SignupPage} from "../pages/signup/signup";
 import {SigninPage} from "../pages/signin/signin";
+import {AuthService} from "../services/auth";
+import {SLOptionsPage} from "../pages/shoppinglist/sl-options/sl-options";
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import {SigninPage} from "../pages/signin/signin";
     ShoppinglistPage,
     RecipePage,
     SignupPage,
-    SigninPage
+    SigninPage,
+    SLOptionsPage
   ],
   imports: [
     BrowserModule,
@@ -43,13 +46,15 @@ import {SigninPage} from "../pages/signin/signin";
     ShoppinglistPage,
     RecipePage,
     SignupPage,
-    SigninPage
+    SigninPage,
+    SLOptionsPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     ShoppinglistService,
     RecipesService,
+    AuthService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
