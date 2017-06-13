@@ -5,6 +5,7 @@ import {ShoppinglistService} from "../../services/shoppinglist.service";
 import {Ingredient} from "../../models/ingredient.model";
 import {Subscription} from "rxjs";
 import {SLOptionsPage} from "./sl-options/sl-options";
+import {AuthService} from "../../services/auth";
 
 @IonicPage()
 @Component({
@@ -20,7 +21,8 @@ export class ShoppinglistPage implements OnInit {
   private subscription: Subscription;
 
   constructor(private slService: ShoppinglistService,
-              private popoverCtrl: PopoverController) {}
+              private popoverCtrl: PopoverController,
+              private authService: AuthService) {}
 
   onSubmit(form: NgForm) {
     const value = this.ingredientForm.value;
@@ -57,6 +59,31 @@ export class ShoppinglistPage implements OnInit {
     popover.present({
       ev: event
     });
+    popover.onDidDismiss(
+      data => {
+        if(data.action == 'load') {
+
+        } else {
+          this.authService.getActiveUser().getToken()
+            .then(
+              (token: string) => {
+                this.slService.storeList(token)
+                  .subscribe(
+                    () => console.log('success!'),
+                    error => {
+                      console.log(error);
+                    }
+                  )
+              }
+            )
+            .catch();
+        }
+      }
+    );
+  }
+
+  private loadItems() {
+
   }
 
 }

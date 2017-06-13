@@ -1,11 +1,19 @@
 import {Ingredient} from "../models/ingredient.model";
 import {Subject} from "rxjs";
+import {Injectable} from "@angular/core";
+import {Http} from "@angular/http";
+import {AuthService} from "./auth";
+import 'rxjs/Rx';
 
+@Injectable()
 export class ShoppinglistService {
 
   ingredientsChanged = new Subject<Ingredient[]>();
 
   private ingredients: Ingredient[] = [];
+
+  constructor(private http: Http,
+              private authService: AuthService) {}
 
   getIngredients() {
     return this.ingredients.slice();
@@ -33,5 +41,14 @@ export class ShoppinglistService {
   deleteIngredient(index: number) {
     this.ingredients.splice(index, 1);
     this.ingredientsChanged.next(this.ingredients.slice());
+  }
+
+  storeList(token: string) {
+    const userId = this.authService.getActiveUser().uid;
+    return this.http
+      .put('https://angularapp-4beb2.firebaseio.com/' + userId + '/shopping-list.json?auth=' + token, this.ingredients)
+      .map(response => {
+        return response.json();
+      });
   }
 }

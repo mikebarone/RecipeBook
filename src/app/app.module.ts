@@ -18,6 +18,7 @@ import {SignupPage} from "../pages/signup/signup";
 import {SigninPage} from "../pages/signin/signin";
 import {AuthService} from "../services/auth";
 import {SLOptionsPage} from "../pages/shoppinglist/sl-options/sl-options";
+import {HttpModule} from "@angular/http";
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {SLOptionsPage} from "../pages/shoppinglist/sl-options/sl-options";
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
