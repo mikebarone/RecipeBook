@@ -51,4 +51,15 @@ export class ShoppinglistService {
         return response.json();
       });
   }
+
+  fetchList(token: string) {
+    const userId = this.authService.getActiveUser().uid;
+    return this.http.get('https://angularapp-4beb2.firebaseio.com/' + userId + '/shopping-list.json?auth=' + token)
+      .map(response => {
+        return response.json();
+      })
+      .do((data) => {
+        this.ingredients = data;
+      });
+  }
 }
