@@ -86,7 +86,7 @@ export class ShoppinglistPage implements OnInit {
                     },
                     error => {
                       loading.dismiss();
-                      this.handleError(error.message);
+                      this.handleError(error.json().error);
                     }
                   )
               }
@@ -102,7 +102,7 @@ export class ShoppinglistPage implements OnInit {
                     () => loading.dismiss(),
                     error => {
                       loading.dismiss();
-                      this.handleError(error.message);
+                      this.handleError(error.json().error);
                     }
                   )
               }
