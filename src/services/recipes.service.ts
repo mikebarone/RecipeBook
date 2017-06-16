@@ -43,7 +43,13 @@ export class RecipesService {
     const userId = this.authService.getActiveUser().uid;
     return this.http.get('https://angularapp-4beb2.firebaseio.com/' + userId + '/recipes.json?auth=' + token)
       .map(response => {
-        return response.json();
+        const recipes: Recipe[] = response.json() ? response.json() : [];
+        for(let item of recipes) {
+          if(!item.hasOwnProperty('ingredients')) {
+            item.ingredients = [];
+          }
+        }
+        return recipes;
       })
       .do((data) => {
         this.recipes = data;

@@ -69,6 +69,9 @@ export class ShoppinglistPage implements OnInit {
     });
     popover.onDidDismiss(
       data => {
+        if(!data) {
+          return;
+        }
         if(data.action == 'load') {
           loading.present();
           this.authService.getActiveUser().getToken()
